@@ -1,0 +1,22 @@
+{
+  "name": "SpanishLearning",
+  "integrations": {
+    "capacitor": {}
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "backgroundColor": "#3498db",
+      "showSpinner": false,
+      "androidScaleX": 1.0,
+      "androidScaleY": 1.0,
+      "iosScaleX": 1.0,
+      "iosScaleY": 1.0
+    },
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#3498db"
+    }
+  }
+}
