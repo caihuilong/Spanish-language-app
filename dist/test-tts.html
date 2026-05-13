@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试发音 - 西班牙语学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+        }
+        
+        .test-section h2 {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .speed-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .speed-btn {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .voice-select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .custom-text {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .info ul {
+            margin-left: 20px;
+            color: #666;
+        }
+        
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #e83e8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🎤</div>
+        <h1>测试西班牙语发音</h1>
+        
+        <div id="status" class="status loading">
+            🔄 检查发音服务状态...
+        </div>
+        
+        <div class="test-section">
+            <h2>🎵 选择语速</h2>
+            <div class="speed-buttons">
+                <button class="speed-btn" onclick="setSpeed('-30%')">🐢 最慢-30%</button>
+                <button class="speed-btn" onclick="setSpeed('-20%')">🐢 慢速-20%</button>
+                <button class="speed-btn" onclick="setSpeed('-10%')">🚶 正常-10%</button>
+                <button class="speed-btn" onclick="setSpeed('0%')">🏃 标准速度</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🗣️ 选择语音</h2>
+            <select id="voice" class="voice-select">
+                <option value="es-ES-AlvaroNeural">Álvaro (西班牙男声) ⭐推荐</option>
+                <option value="es-ES-ElviraNeural">Elvira (西班牙女声)</option>
+                <option value="es-MX-DaliaNeural">Dalia (墨西哥女声)</option>
+                <option value="es-MX-JorgeNeural">Jorge (墨西哥男声)</option>
+                <option value="es-AR-TomasNeural">Tomás (阿根廷男声)</option>
+                <option value="es-AR-FatimaNeural">Fatima (阿根廷女声)</option>
+            </select>
+        </div>
+        
+        <div class="test-section">
+            <h2>📝 测试例句</h2>
+            <button onclick="speak('Hola, ¿cómo estás?')">¿Cómo estás? (你好吗？)</button>
+            <button onclick="speak('Me llamo María')">Me llamo María (我叫María)</button>
+            <button onclick="speak('Buenos días')">Buenos días (早上好)</button>
+            <button onclick="speak('Mucho gusto')">Mucho gusto (很高兴认识你)</button>
+            <button onclick="speak('¿Hablas español?')">¿Hablas español? (你说西班牙语吗？)</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>✍️ 自定义文本</h2>
+            <textarea id="customText" class="custom-text" placeholder="输入你想听的西班牙语句子...">Hola, bienvenido a aprender español</textarea>
+            <button onclick="speakCustom()" style="width: 100%">🔊 朗读自定义文本</button>
+        </div>
+        
+        <div class="info">
+            <h3>📋 使用说明</h3>
+            <ul>
+                <li>确保已启动发音服务：<code>cd spanish-learning-app/server && node simple-tts-server.js</code></li>
+                <li>选择语速：<strong>-30%</strong> 最慢最清晰，适合初学者</li>
+                <li>选择语音：<strong>Álvaro</strong> 西班牙标准发音，推荐使用</li>
+                <li>点击按钮测试发音</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        let currentSpeed = '-20%'
+        let audio = null
+        
+        async function checkService() {
+            try {
+                const response = await fetch('http://localhost:3003/health')
+                if (response.ok) {
+                    document.getElementById('status').innerHTML = '✅ 发音服务运行中<br><small>享受高质量发音吧！</small>'
+                    document.getElementById('status').className = 'status success'
+                    return true
+                }
+            } catch (e) {
+                document.getElementById('status').innerHTML = '⚠️ 发音服务未启动<br><small>运行: <code>cd spanish-learning-app/server && node simple-tts-server.js</code></small>'
+                document.getElementById('status').className = 'status error'
+                return false
+            }
+        }
+        
+        function setSpeed(speed) {
+            currentSpeed = speed
+            const buttons = document.querySelectorAll('.speed-btn')
+            buttons.forEach(btn => {
+                btn.style.background = btn.textContent.includes(speed) ? '#667eea' : '#764ba2'
+            })
+        }
+        
+        async function speak(text) {
+            if (!await checkService()) return
+            
+            if (audio) {
+                audio.pause()
+            }
+            
+            try {
+                const voice = document.getElementById('voice').value
+                const response = await fetch('http://localhost:3003/synthesize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice: voice,
+                        rate: currentSpeed
+                    })
+                })
+                
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.path) {
+                        audio = new Audio('http://localhost:3003' + data.path)
+                        await audio.play()
+                    }
+                }
+            } catch (e) {
+                console.error(e)
+                alert('发音失败：' + e.message)
+            }
+        }
+        
+        function speakCustom() {
+            const text = document.getElementById('customText').value
+            if (text.trim()) {
+                speak(text)
+            }
+        }
+        
+        checkService()
+    </script>
+</body>
+</html>
